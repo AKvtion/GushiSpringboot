@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.poetry.dao.SentenceDao">
+
+    <resultMap type="com.example.poetry.entity.Sentence" id="SentenceMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="tslt" column="tslt" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SentenceMap">
+        select
+          id, title, author, content, tslt
+        from sentence
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SentenceMap">
+        select
+          id, title, author, content, tslt
+        from sentence
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tslt != null and tslt != ''">
+                and tslt = #{tslt}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from sentence
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tslt != null and tslt != ''">
+                and tslt = #{tslt}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAll" resultType="com.example.poetry.entity.Sentence">
+        select * from sentence
+    </select>
+
+    <select id="queryByName" resultType="com.example.poetry.entity.Sentence">
+        select * from sentence where author = #{name}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into sentence(title, author, content, tslt)
+        values (#{title}, #{author}, #{content}, #{tslt})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sentence(title, author, content, tslt)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.title}, #{entity.author}, #{entity.content}, #{entity.tslt})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into sentence(title, author, content, tslt)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.title}, #{entity.author}, #{entity.content}, #{entity.tslt})
+        </foreach>
+        on duplicate key update
+        title = values(title),
+        author = values(author),
+        content = values(content),
+        tslt = values(tslt)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update sentence
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="tslt != null and tslt != ''">
+                tslt = #{tslt},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from sentence where id = #{id}
+    </delete>
+
+</mapper>
+

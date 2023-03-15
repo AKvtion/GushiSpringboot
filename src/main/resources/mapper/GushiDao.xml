@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.poetry.dao.GushiDao">
+
+    <resultMap type="com.example.poetry.entity.Gushi" id="GushiMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="country" column="country" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="tslt" column="tslt" jdbcType="VARCHAR"/>
+        <result property="comment" column="comment" jdbcType="VARCHAR"/>
+        <result property="appreciation" column="appreciation" jdbcType="VARCHAR"/>
+        <result property="introduce" column="introduce" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GushiMap">
+        select
+          id, title, author, country, content,tslt,comment,appreciation,introduce
+        from gushi
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GushiMap">
+        select
+          id, title, author, country, content,tslt,comment,appreciation,introduce
+        from gushi
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="country != null and country != ''">
+                and country = #{country}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tslt != null and tslt != ''">
+                and tslt = #{tslt}
+            </if>
+            <if test="comment != null and comment != ''">
+                and comment = #{comment}
+            </if>
+            <if test="appreciation != null and appreciation != ''">
+                and appreciation = #{appreciation}
+            </if>
+            <if test="introduce != null and introduce != ''">
+                and introduce = #{introduce}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from gushi
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="country != null and country != ''">
+                and country = #{country}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tslt != null and tslt != ''">
+                and tslt = #{tslt}
+            </if>
+            <if test="comment != null and comment != ''">
+                and comment = #{comment}
+            </if>
+            <if test="appreciation != null and appreciation != ''">
+                and appreciation = #{appreciation}
+            </if>
+            <if test="introduce != null and introduce != ''">
+                and introduce = #{introduce}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAll" resultType="com.example.poetry.entity.Gushi">
+            SELECT * FROM gushi
+    </select>
+
+    <select id="queryByName" resultType="com.example.poetry.entity.Gushi">
+        SELECT * FROM gushi where author = #{name}
+    </select>
+
+    <select id="queryAuthor" resultType="com.example.poetry.entity.Gushi">
+        SELECT author,country,introduce from gushi
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into gushi(title, author, country, content,tslt,comment,appreciation,introduce)
+        values (#{title}, #{author}, #{country}, #{content},#{tslt},#{comment},#{appreciation},#{introduce})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into gushi(title, author, country, content,tslt,comment,appreciation,introduce)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.title}, #{entity.author}, #{entity.country}, #{entity.content},#{entity.tslt},#{entity.comment},#{entity.appreciation},#{entity.introduce})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into gushi(title, author, country, content,tslt,comment,appreciation,introduce)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.title}, #{entity.author}, #{entity.country}, #{entity.content}, #{entity.tslt}, #{entity.comment}, #{entity.appreciation},#{entity.introduce})
+        </foreach>
+        on duplicate key update
+        title = values(title),
+        author = values(author),
+        country = values(country),
+        content = values(content),
+        tslt = values(tslt),
+        comment = values(comment),
+        appreciation = values(appreciation),
+        introduce = values(introduce)
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update gushi
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author},
+            </if>
+            <if test="country != null and country != ''">
+                country = #{country},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="tslt != null and tslt != ''">
+                tslt = #{tslt},
+            </if>
+            <if test="comment != null and comment != ''">
+                comment = #{comment},
+            </if>
+            <if test="appreciation != null and appreciation != ''">
+                appreciation = #{appreciation},
+            </if>
+            <if test="introduce != null and introduce != ''">
+                introduce = #{introduce},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from gushi where id = #{id}
+    </delete>
+
+</mapper>
+

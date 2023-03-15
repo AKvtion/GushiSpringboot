@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.poetry.dao.CarouselDao">
+
+    <resultMap type="com.example.poetry.entity.Carousel" id="CarouselMap">
+        <result property="carouselId" column="carousel_id" jdbcType="INTEGER"/>
+        <result property="carouselUrl" column="carousel_url" jdbcType="VARCHAR"/>
+        <result property="redirectUrl" column="redirect_url" jdbcType="VARCHAR"/>
+        <result property="carouselRank" column="carousel_rank" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CarouselMap">
+        select
+          carousel_id, carousel_url, redirect_url, carousel_rank
+        from carousel
+        where carousel_id = #{carouselId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CarouselMap">
+        select
+          carousel_id, carousel_url, redirect_url, carousel_rank
+        from carousel
+        <where>
+            <if test="carouselId != null">
+                and carousel_id = #{carouselId}
+            </if>
+            <if test="carouselUrl != null and carouselUrl != ''">
+                and carousel_url = #{carouselUrl}
+            </if>
+            <if test="redirectUrl != null and redirectUrl != ''">
+                and redirect_url = #{redirectUrl}
+            </if>
+            <if test="carouselRank != null">
+                and carousel_rank = #{carouselRank}
+            </if>
+
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from carousel
+        <where>
+            <if test="carouselId != null">
+                and carousel_id = #{carouselId}
+            </if>
+            <if test="carouselUrl != null and carouselUrl != ''">
+                and carousel_url = #{carouselUrl}
+            </if>
+            <if test="redirectUrl != null and redirectUrl != ''">
+                and redirect_url = #{redirectUrl}
+            </if>
+            <if test="carouselRank != null">
+                and carousel_rank = #{carouselRank}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAll" resultType="com.example.poetry.entity.Carousel">
+        select * from carousel
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="carouselId" useGeneratedKeys="true">
+        insert into carousel(carousel_url, redirect_url, carousel_rank)
+        values (#{carouselUrl}, #{redirectUrl}, #{carouselRank})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="carouselId" useGeneratedKeys="true">
+        insert into carousel(carousel_url, redirect_url, carousel_rank)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.carouselUrl}, #{entity.redirectUrl}, #{entity.carouselRank})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="carouselId" useGeneratedKeys="true">
+        insert into carousel(carousel_url, redirect_url, carousel_rank)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.carouselUrl}, #{entity.redirectUrl}, #{entity.carouselRank})
+        </foreach>
+        on duplicate key update
+        carousel_url = values(carousel_url),
+        redirect_url = values(redirect_url),
+        carousel_rank = values(carousel_rank),
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update carousel
+        <set>
+            <if test="carouselUrl != null and carouselUrl != ''">
+                carousel_url = #{carouselUrl},
+            </if>
+            <if test="redirectUrl != null and redirectUrl != ''">
+                redirect_url = #{redirectUrl},
+            </if>
+            <if test="carouselRank != null">
+                carousel_rank = #{carouselRank},
+            </if>
+        </set>
+        where carousel_id = #{carouselId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from carousel where carousel_id = #{carouselId}
+    </delete>
+
+</mapper>
+
