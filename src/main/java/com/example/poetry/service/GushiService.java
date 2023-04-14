@@ -1,10 +1,12 @@
 package com.example.poetry.service;
 
+import com.example.poetry.base.entity.Echarts;
 import com.example.poetry.base.entity.PageRequest;
 import com.example.poetry.entity.Gushi;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Gushi)表服务接口
@@ -54,4 +56,8 @@ public interface GushiService {
 
     //查询作者详细
     List<Gushi> queryAuthor();
+
+    List<Echarts> getCountryCount();
+
+
 }

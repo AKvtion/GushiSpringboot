@@ -107,6 +107,11 @@
     </select>
 
 
+    <select id="getCountryCount" resultType="com.example.poetry.base.entity.Echarts">
+        SELECT country as name , COUNT(*) as value FROM gushi GROUP BY country;
+    </select>
+
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into gushi(title, author, country, content,tslt,comment,appreciation,introduce)

@@ -1,9 +1,11 @@
 package com.example.poetry.dao;
 
+import com.example.poetry.base.entity.Echarts;
 import com.example.poetry.entity.Gushi;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+
 
 /**
  * (Gushi)表数据库访问层
@@ -77,5 +79,8 @@ public interface GushiDao {
     List<Gushi> queryByName(String name);
 
     List<Gushi> queryAuthor();
+
+    List<Echarts> getCountryCount();
+
 }
 

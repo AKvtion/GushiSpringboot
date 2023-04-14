@@ -1,5 +1,6 @@
 package com.example.poetry.service.impl;
 
+import com.example.poetry.base.entity.Echarts;
 import com.example.poetry.entity.Gushi;
 import com.example.poetry.dao.GushiDao;
 import com.example.poetry.service.GushiService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Gushi)表服务实现类
@@ -80,5 +82,11 @@ public class GushiServiceImpl implements GushiService {
     public List<Gushi> queryAuthor() {
         return gushiDao.queryAuthor();
     }
+
+    @Override
+    public List<Echarts> getCountryCount() {
+        return gushiDao.getCountryCount();
+    }
+
 
 }

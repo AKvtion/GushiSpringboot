@@ -128,6 +128,24 @@ public class PManagerController {
         }else {
             return new Result().fail("用户名或密码错误 登录失败",400);
         }
+        /*
+        User user = userService.login(data);
+        if ( user == null ){
+            return new Result().fail(400,"用户名不存在！");
+        }
+        //将用户传入的密码进行加密，用户加密后的值 和 数据库查询出来的值进行对比
+        if ( DigestUtil.md5Hex(data.getPassword()).equals(user.getPassword()) ){
+            //sa-token的登录方法
+            StpUtil.login(user.getId());
+            //用map集合将登录生成的token信息返回给前端
+            Map<String,Object> maps = new HashMap<>();
+            maps.put("token",StpUtil.getTokenValue());
+            return new Result().success(maps);
+        } else {
+            return new Result().fail("密码错误，请重新输入",400);
+        }
+        */
+
     }
 
     /**

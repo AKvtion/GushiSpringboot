@@ -2,6 +2,7 @@ package com.example.poetry.controller;
 
 
 import com.example.poetry.base.config.Result;
+import com.example.poetry.base.entity.Echarts;
 import com.example.poetry.entity.Gushi;
 import com.example.poetry.service.GushiService;
 import com.github.pagehelper.PageHelper;
@@ -136,5 +137,16 @@ public class GushiController {
         return new Result().success(this.gushiService.deleteById(id));
     }
 
+    /**
+     * 获取每个朝代出现的次数
+     * @return List
+     */
+    @GetMapping("/getConuntry")
+    public Result getCountyCount(){
+        List<Echarts> echarts = this.gushiService.getCountryCount();
+        Map<String,Object> maps = new HashMap<>();
+        maps.put("series",echarts);
+        return new Result().success(maps);
+    }
 }
 
