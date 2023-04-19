@@ -59,5 +59,5 @@ public interface GushiService {
 
     List<Echarts> getCountryCount();
 
-
+    Echarts getContentCount();
 }

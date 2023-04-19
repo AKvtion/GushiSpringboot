@@ -1,12 +1,11 @@
 package com.example.poetry.controller;
 
 import com.example.poetry.base.config.Result;
-import com.example.poetry.entity.Gushi;
 import com.example.poetry.entity.Sentence;
 import com.example.poetry.service.SentenceService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.http.ResponseEntity;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +19,7 @@ import java.util.Map;
  * @author fauchard
  * @since 2023-03-09 10:59:51
  */
+@Api(tags = "名言模块")
 @RestController
 @RequestMapping("sentence")
 public class SentenceController {
@@ -32,23 +32,23 @@ public class SentenceController {
     /**
      * 分页查询(后台)
      *
-     * @param pageNum
-     * @param pageSize
-     * @return
+     * @param pageNum 条数
+     * @param pageSize 页数
+     * @return Result
      */
     @GetMapping("/queryAll")
     public Result queryAll(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "80") int pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Sentence> sentences = sentenceService.queryAll();
-        PageInfo<Sentence> pageInfo = new PageInfo<Sentence>(sentences);
+        PageInfo<Sentence> pageInfo = new PageInfo<>(sentences);
         return new Result().success(pageInfo);
     }
 
     /**
      * 通过作者查询记录
      *
-     * @param name
-     * @return
+     * @param name 作者名
+     * @return Result
      */
     @GetMapping("/queryByName")
     public Result queryByName(@RequestParam("name") String name){
@@ -65,7 +65,7 @@ public class SentenceController {
 
     /**
      * 查询所有记录，没有使用PageHelper分页
-     * @return
+     * @return Result
      */
     @GetMapping("/query")
     public Result query() {

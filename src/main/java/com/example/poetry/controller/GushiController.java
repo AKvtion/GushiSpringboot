@@ -7,6 +7,7 @@ import com.example.poetry.entity.Gushi;
 import com.example.poetry.service.GushiService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @author fauchard
  * @since 2023-01-01 22:13:53
  */
+@Api(tags = "古诗模块")
 @RestController
 @RequestMapping("gushi")
 public class GushiController {
@@ -29,34 +31,31 @@ public class GushiController {
     @Resource
     private GushiService gushiService;
 
+
     /**
      * 分页查询(后台)
-     *
-     * @param pageNum
-     * @param pageSize
-     * @return
+     * @param pageNum 条数
+     * @param pageSize 页数
+     * @return Result
      */
     @GetMapping("/queryAll")
     public Result queryAll(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "80") int pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Gushi> gushis = gushiService.queryAll();
-        PageInfo<Gushi> pageInfo = new PageInfo<Gushi>(gushis);
+        PageInfo<Gushi> pageInfo = new PageInfo<>(gushis);
         return new Result().success(pageInfo);
     }
 
     /**
      * 通过作者查询记录
      *
-     * @param name
-     * @return
+     * @param name 作者名
+     * @return Result
      */
     @GetMapping("/queryByName")
     public Result queryByName(@RequestParam("name") String name){
         List<Gushi> gushis = gushiService.queryByName(name);
-        int total;
-        for (total = 0; total < gushis.size(); total++) {
-            total++;
-        }
+        int total = (int) gushis.stream().count();
         Map<String,Object> map = new HashMap<>();
         map.put("data",gushis);
         map.put("total",total);
@@ -64,8 +63,8 @@ public class GushiController {
     }
 
     /**
-     * 查询所有记录，没有使用PageHelper分页
-     * @return
+     * 查询所有记录，没有使用 PageHelper分页
+     * @return Result
      */
     @GetMapping("/query")
     public Result query() {
@@ -74,7 +73,7 @@ public class GushiController {
 
     /**
      * 查询作者详细介绍，没有使用PageHelper分页
-     * @return
+     * @return Result
      */
     @GetMapping("/queryAuthor")
     public Result queryAuthor() {
@@ -94,26 +93,25 @@ public class GushiController {
     /**
      * 分页查询(部分)
      *
-     * @param pageNum
-     * @param pageSize
-     * @return
+     * @param pageNum 条数
+     * @param pageSize 页数
+     * @return Result
      */
     @GetMapping("/queryBuFen")
     public Result queryBuFen(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "5") int pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<Gushi> gushis = gushiService.queryAll();
-        PageInfo<Gushi> pageInfo = new PageInfo<Gushi>(gushis);
-//        JSONUtil.toJsonStr(pageInfo); //转成json格式
+        PageInfo<Gushi> pageInfo = new PageInfo<>(gushis);
         return new Result().success(pageInfo);
     }
+
     /**
      * 新增数据
-     * @param gushi
-     * @return
+     * @param gushi 实体
+     * @return Result
      */
     @PostMapping("/add")
     public Result add(Gushi gushi) {
-//        String s = JSONUtil.toJsonStr(gushi);
         return new Result().success(this.gushiService.insert(gushi));
     }
 
@@ -141,9 +139,21 @@ public class GushiController {
      * 获取每个朝代出现的次数
      * @return List
      */
-    @GetMapping("/getConuntry")
+    @GetMapping("/getCountry")
     public Result getCountyCount(){
         List<Echarts> echarts = this.gushiService.getCountryCount();
+        Map<String,Object> maps = new HashMap<>();
+        maps.put("series",echarts);
+        return new Result().success(maps);
+    }
+
+    /**
+     * 获取所有古诗文章总数量
+     * @return List
+     */
+    @GetMapping("/getContent")
+    public Result getContentCount(){
+        Echarts echarts = this.gushiService.getContentCount();
         Map<String,Object> maps = new HashMap<>();
         maps.put("series",echarts);
         return new Result().success(maps);

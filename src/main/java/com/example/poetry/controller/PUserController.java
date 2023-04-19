@@ -2,11 +2,11 @@ package com.example.poetry.controller;
 
 import cn.hutool.core.lang.Validator;
 import com.example.poetry.base.config.Result;
-import com.example.poetry.entity.PManager;
 import com.example.poetry.entity.PUser;
 import com.example.poetry.service.PUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +21,7 @@ import java.util.Map;
  * @author fauchard
  * @since 2023-01-12 16:41:51
  */
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping("pUser")
 public class PUserController {
@@ -33,31 +34,30 @@ public class PUserController {
     /**
      * 分页查询
      *
-     * @param pageNum
-     * @param pageSize
-     * @return
+     * @return Result
      */
     @GetMapping("/queryAll")
     public Result queryAll(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "80") int pageSize){
         PageHelper.startPage(pageNum,pageSize);
         List<PUser> pUsers = pUserService.queryAll();
-        PageInfo<PUser> pageInfo = new PageInfo<PUser>(pUsers);
+        PageInfo<PUser> pageInfo = new PageInfo<>(pUsers);
         return new Result().success(pageInfo);
     }
 
     /**
      * 通过用户名查询记录
      *
-     * @param name
-     * @return
+     * @param name 名字
+     * @return Result
      */
     @GetMapping("/queryByName")
     public Result queryByName(@RequestParam("name") String name){
         List<PUser> pUsers = pUserService.queryByName(name);
-        int total;
-        for (total = 0; total < pUsers.size(); total++) {
-            total++;
-        }
+        int total = (int) pUsers.stream().count();  // Java 8 的流式操作
+//        int total;
+//        for (total = 0; total < pUsers.size(); total++) {
+//            total++;
+//        }
         Map<String,Object> map = new HashMap<>();
         map.put("data",pUsers);
         map.put("total",total);

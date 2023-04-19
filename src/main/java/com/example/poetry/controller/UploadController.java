@@ -1,9 +1,9 @@
 package com.example.poetry.controller;
 
 import com.example.poetry.base.config.Result;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
+@Api(tags = "上传模块")
 @RestController
 @RequestMapping("upload")
 public class UploadController {
@@ -37,7 +38,7 @@ public class UploadController {
             System.out.println("上传文件类型getContentType:" + file.getContentType());
             //上传文件名
             System.out.println("上传文件名getOriginalFilename:" + file.getOriginalFilename());
-            /**
+            /*
              * 创建一个文件对象，把存文件的路径和文件名放进去
              */
             File filepath = new File(filelocation, filename);
@@ -45,7 +46,7 @@ public class UploadController {
             if (!filepath.getParentFile().exists()) {
                 filepath.getParentFile().mkdirs();
             }
-            /**
+            /*
              * 将上传文件保存到一个目标文件中
              */
             file.transferTo(new File(filelocation + File.separator + filename));

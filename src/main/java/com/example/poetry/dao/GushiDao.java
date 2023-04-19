@@ -82,5 +82,6 @@ public interface GushiDao {
 
     List<Echarts> getCountryCount();
 
+    Echarts getContentCount();
 }
 

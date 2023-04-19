@@ -16,10 +16,6 @@ class PoetryApplicationTests {
     private GushiDao gushiDao;
 
     @Test
-    void contextLoads() {
-    }
-
-    @Test
     public void test1(){
         List<Echarts> countryCount = gushiDao.getCountryCount();
 //        for (int i = 0; i < countryCount.size(); i++) {
