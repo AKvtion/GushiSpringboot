@@ -77,6 +77,10 @@
         select * from p_manager where  username = #{username}
     </select>
 
+    <select id="selectAll" resultType="com.example.poetry.entity.PManager">
+        select * from p_manager;
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into p_manager(username, password, phone, email, status)

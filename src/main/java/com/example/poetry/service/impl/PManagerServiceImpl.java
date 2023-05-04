@@ -6,6 +6,7 @@ import com.example.poetry.service.PManagerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (PManager)表服务实现类
@@ -73,6 +74,11 @@ public class PManagerServiceImpl implements PManagerService {
     @Override
     public int register(PManager pManager) {
         return pManagerDao.register(pManager);
+    }
+
+    @Override
+    public List<PManager> queryAll() {
+        return this.pManagerDao.selectAll();
     }
 
 

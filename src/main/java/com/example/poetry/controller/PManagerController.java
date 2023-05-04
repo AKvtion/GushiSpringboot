@@ -6,7 +6,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Validator;
 import com.example.poetry.base.config.Result;
 import com.example.poetry.entity.PManager;
+import com.example.poetry.entity.PUser;
 import com.example.poetry.service.PManagerService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,7 +67,7 @@ public class PManagerController {
      */
     @PostMapping("/login")
     @SaCheckLogin
-    public Result login2(@RequestBody PManager pManager){
+    public Result login(@RequestBody PManager pManager){
         String username = pManager.getUsername();
         String password = pManager.getPassword();
         if (Validator.isEmpty(username)||Validator.isEmpty(password)){
@@ -102,9 +106,22 @@ public class PManagerController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/queryById/{id}")
     public Result queryById(@PathVariable("id") Integer id) {
         return new Result().success(this.pManagerService.queryById(id));
+    }
+
+    /**
+     * 分页查询
+     *
+     * @return Result
+     */
+    @GetMapping("/queryAll")
+    public Result queryAll(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "80") int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<PManager> pManagers = pManagerService.queryAll();
+        PageInfo<PManager> pageInfo = new PageInfo<>(pManagers);
+        return new Result().success(pageInfo);
     }
 
     /**

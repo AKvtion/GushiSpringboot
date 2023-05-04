@@ -95,5 +95,7 @@ public interface PManagerDao {
      * @return
      */
     int register(PManager pManager);
+
+    List<PManager> selectAll();
 }
 

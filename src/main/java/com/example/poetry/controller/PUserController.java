@@ -54,10 +54,6 @@ public class PUserController {
     public Result queryByName(@RequestParam("name") String name){
         List<PUser> pUsers = pUserService.queryByName(name);
         int total = (int) pUsers.stream().count();  // Java 8 的流式操作
-//        int total;
-//        for (total = 0; total < pUsers.size(); total++) {
-//            total++;
-//        }
         Map<String,Object> map = new HashMap<>();
         map.put("data",pUsers);
         map.put("total",total);

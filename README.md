@@ -8,31 +8,29 @@
 
 
 
+
 ### 技术
 
 #### 前端
+| 技术  |                                      简介                                       |
+|:---:|:-----------------------------------------------------------------------------:|
+| vue |                      Vue是一套用于构建用户界面的渐进式框架，它可以轻松地实现组件化开发。                      |
+| axios |                  Axios是一个基于Promise的HTTP客户端，可以用在浏览器和Node.js中。                  |
+| elemene-UI |               Element-UI是一套基于Vue.js 2.0的桌面端组件库，提供了丰富的UI组件和交互方式。               |
+| vue-router |           Vue-Router是Vue.js官方的路由管理器，它和Vue.js核心深度集成，可以非常方便地实现单页应用程序。           |
 
-vue
-
-axios
-
-elemene-UI
-
-vue-router
 
 #### 后端
-
-springboot
-
-mybatis
-
-mysql
-
-maven
-
-swagger
-
-sa-token
+| 技术  |                                              简介                                             |
+|:---:|:-------------------------------------------------------------------------------------------:|
+| springboot |                Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。                |
+| mybatis |                           Mybatis是一款优秀的持久层框架，它支持定制化SQL、存储过程以及高级映射。                          |
+| sa-token |                   Sa-Token是一个轻量级Java权限认证框架，支持多种认证方式，如JWT、Session、Cookie等。                   |
+| mysql |                              MySQL是一种关系型数据库管理系统，广泛应用于Web应用程序中。                              |
+| maven |                         Maven是一个项目管理和构建自动化工具，可以帮助开发者更方便地管理和构建Java项目。                        |
+| swagger |                       Swagger是一种RESTful API文档生成工具，可以帮助开发者更方便地生成API文档。                       |
+| hutool |                               Hutool是一个Java工具包，提供了很多常用的工具类和方法。                              |
+| lombok |                                             Lombok是一个Java库，可以通过注解的方式来简化Java代码。|
 
 
 
@@ -53,4 +51,6 @@ sa-token
 ![img](./assets/wps6.jpg)
 
 ![img](./assets/wps7.jpg)
+
+![image-20230504093410593](./assets/data.png)
 

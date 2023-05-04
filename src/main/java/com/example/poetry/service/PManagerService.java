@@ -2,6 +2,8 @@ package com.example.poetry.service;
 
 import com.example.poetry.entity.PManager;
 
+import java.util.List;
+
 /**
  * (PManager)表服务接口
  *
@@ -46,4 +48,6 @@ public interface PManagerService {
     PManager find(String username);
 
     int register(PManager pManager);
+
+    List<PManager> queryAll();
 }
